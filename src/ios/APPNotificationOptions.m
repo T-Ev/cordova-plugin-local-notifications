@@ -146,13 +146,33 @@ static NSInteger WEEKDAYS[8] = { 0, 2, 3, 4, 5, 6, 7, 1 };
 }
 
 /**
- * The category of the notification.
+ * The group of the notification.
  *
  * @return [ NSString* ]
  */
 - (NSString*) group
 {
     return dict[@"group"];
+}
+
+/**
+ * Is notification groupsummary of the notification.
+ *
+ * @return [ BOOL ]
+ */
+- (BOOL) groupSummary
+{
+    return [dict[@"groupSummary"] boolValue];
+}
+
+/**
+ * The group summary of the notification.
+ *
+ * @return [ NSString* ]
+ */
+- (NSString*) summary
+{
+    return dict[@"summary"];
 }
 
 /**
