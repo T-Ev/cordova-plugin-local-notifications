@@ -127,7 +127,7 @@ static NSInteger WEEKDAYS[8] = { 0, 2, 3, 4, 5, 6, 7, 1 };
 /**
  * Show notification in foreground.
  *
- * @return [ INT ]
+ * @return [ int ]
  */
 - (int) priority
 {
@@ -135,14 +135,24 @@ static NSInteger WEEKDAYS[8] = { 0, 2, 3, 4, 5, 6, 7, 1 };
 }
 
 /**
- * Show notification in foreground.
+ * automatically cancel notification after a timeperiod.
  *
- * @return [ INT ]
+ * @return [ NSNumber* ]
  */
 - (NSNumber*) timeoutAfter
 {
     id value = [dict[@"timeoutAfter"] intValue];
     return (value == NULL) ? NULL : [NSNumber numberWithInt:[value intValue]];
+}
+
+/**
+ * The category of the notification.
+ *
+ * @return [ NSString* ]
+ */
+- (NSString*) group
+{
+    return dict[@"group"];
 }
 
 /**
