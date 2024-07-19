@@ -485,10 +485,10 @@ UNNotificationPresentationOptions const OptionAlert = UNNotificationPresentation
         __strong APPLocalNotification* strongSelf = weakSelf;
         [strongSelf fireEvent:event notification:request];
         APPNotificationOptions* options = request;
-        if([options timeoutAfter]){
-            NSTimeInterval timeout = [options timeoutAfter] > 0 ? [options timeoutAfter] : 2;
-            [strongSelf scheduleAutoCancelForNotification:request.identifier after:timeout];
-        }
+        // if([options timeoutAfter]){
+        //     NSTimeInterval timeout = [options timeoutAfter] > 0 ? [options timeoutAfter] : 2;
+        //     [strongSelf scheduleAutoCancelForNotification:request.identifier after:timeout];
+        // }
     }];
 }
 - (void) scheduleAutoCancelForNotification:(NSString*)identifier after:(NSTimeInterval)seconds {
