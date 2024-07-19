@@ -141,7 +141,7 @@ static NSInteger WEEKDAYS[8] = { 0, 2, 3, 4, 5, 6, 7, 1 };
  */
 - (NSNumber*) timeoutAfter
 {
-    id value = [dict[@"timeoutAfter"] intValue];
+    NSInteger value = [dict[@"timeoutAfter"] intValue];
     return (value == NULL) ? NULL : [NSNumber numberWithInt:[value intValue]];
 }
 
