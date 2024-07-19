@@ -32,6 +32,7 @@
 @property (readonly, getter=text)          NSString*            text;
 @property (readonly, getter=silent)        BOOL                 silent;
 @property (readonly, getter=priority)      int                  priority;
+@property (readonly, getter=timeoutAfter)  NSNumber*            timeoutAfter;
 @property (readonly, getter=sound)         UNNotificationSound* sound;
 @property (readonly, getter=userInfo)      NSDictionary*        userInfo;
 @property (readonly, getter=attachments)   NSArray<UNNotificationAttachment*>*attachments;

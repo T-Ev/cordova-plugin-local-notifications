@@ -104,6 +104,18 @@ UNNotificationPresentationOptions const OptionAlert = UNNotificationPresentation
         for (NSDictionary* options in notifications) {
             APPNotificationContent* notification;
 
+            //TODO: Delete old Notification before adding new one
+            // // Delete an existing alarm with this ID first
+            // NSNumber* id = [options objectForKey:@"id"];
+            // UNNotificationRequest* oldNotification;
+            // oldNotification = [_center getNotificationWithId:id];
+
+            // if (oldNotification) {
+            //     // Remove future alarms but keep ones that are active in the notification tray in case they need to persist.
+            //     // Call cancel() explicitly to keep the old behavior.
+            //     [self->_center removePendingNotificationRequestsWithIdentifiers:@[[id stringValue]]];
+            // }
+
             notification = [[APPNotificationContent alloc]
                             initWithOptions:options];
 

@@ -675,6 +675,12 @@ public class LocalNotification extends CordovaPlugin {
                 view.loadUrl("javascript:" + js);
             }
         });
+        //TODO: when running js move app to foreground
+        // View engineView = view.getEngine().getView();
+
+        // if (!isInForeground()) {
+        //     engineView.dispatchWindowVisibilityChanged(View.VISIBLE);
+        // }
     }
 
     /**

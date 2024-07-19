@@ -127,11 +127,22 @@ static NSInteger WEEKDAYS[8] = { 0, 2, 3, 4, 5, 6, 7, 1 };
 /**
  * Show notification in foreground.
  *
- * @return [ BOOL ]
+ * @return [ INT ]
  */
 - (int) priority
 {
     return [dict[@"priority"] intValue];
+}
+
+/**
+ * Show notification in foreground.
+ *
+ * @return [ INT ]
+ */
+- (NSNumber*) timeoutAfter
+{
+    id value = [dict[@"timeoutAfter"] intValue];
+    return (value == NULL) ? NULL : [NSNumber numberWithInt:[value intValue]];
 }
 
 /**
@@ -236,7 +247,9 @@ static NSInteger WEEKDAYS[8] = { 0, 2, 3, 4, 5, 6, 7, 1 };
 
     if ([self isRepeating])
         return [self repeatingTrigger];
-
+    if (self timeoutAfter) {
+        return [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:[self timeoutAfter doubleValue] repeats:NO];
+    }
     return [self nonRepeatingTrigger];
 }
 
