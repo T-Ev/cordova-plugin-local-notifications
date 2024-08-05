@@ -598,6 +598,8 @@ UNNotificationPresentationOptions const OptionAlert = UNNotificationPresentation
     }
 
     [self fireEvent:event notification:toast data:data];
+    [self updateNotification:[toast copy]
+                         withOptions:toast.options];
 }
 
 #pragma mark -
