@@ -32,6 +32,7 @@ import androidx.core.app.NotificationCompat.MessagingStyle.Message;
 import android.support.v4.media.session.MediaSessionCompat;
 import androidx.core.app.Person;
 import androidx.core.graphics.drawable.IconCompat;
+import android.app.NotificationManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -413,7 +414,7 @@ public final class Options {
     /**
      * If the phone should vibrate.
      */
-    private boolean isWithVibration() {
+    boolean isWithVibration() {
         return options.optBoolean("vibrate", true);
     }
 
