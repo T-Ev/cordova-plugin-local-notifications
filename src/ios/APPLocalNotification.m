@@ -484,6 +484,9 @@ UNNotificationPresentationOptions const OptionAlert = UNNotificationPresentation
     [_center addNotificationRequest:request withCompletionHandler:^(NSError* e) {
         __strong APPLocalNotification* strongSelf = weakSelf;
         [strongSelf fireEvent:event notification:request];
+
+        // [strongSelf scheduleAutoCancelForNotification:request.identifier after:30];
+
         // APPNotificationOptions* options = request;
         // if([options timeoutAfter]){
         //     NSTimeInterval timeout = [options timeoutAfter] > 0 ? [options timeoutAfter] : 2;
