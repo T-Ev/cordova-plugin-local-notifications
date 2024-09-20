@@ -356,9 +356,9 @@ public final class Options {
     /**
      * Sound file path for the local notification.
      */
-    Uri getSound() {
-        return assets.parse(options.optString("sound", null));
-    }
+    // Uri getSound() {
+    //     return assets.parse(options.optString("sound", null));
+    // }
 
     /**
      * Icon resource ID for the local notification.
@@ -772,6 +772,71 @@ public final class Options {
         } catch (Exception e) {}
     
         return Uri.parse(sound);
+    }
+    // Add these new methods to the Options class
+
+    /**
+     * Get the channel name for the notification.
+     */
+    String getChannelName() {
+        return options.optString("channelName", "Main Channel");
+    }
+
+    /**
+     * Get the channel description for the notification.
+     */
+    String getChannelDescription() {
+        return options.optString("channelDescription", "");
+    }
+
+    /**
+     * Get the importance level for the notification channel.
+     */
+    int getImportance() {
+        String importance = options.optString("importance", "default");
+        switch (importance.toLowerCase()) {
+            case "max": return NotificationManager.IMPORTANCE_MAX;
+            case "high": return NotificationManager.IMPORTANCE_HIGH;
+            case "low": return NotificationManager.IMPORTANCE_LOW;
+            case "min": return NotificationManager.IMPORTANCE_MIN;
+            default: return NotificationManager.IMPORTANCE_DEFAULT;
+        }
+    }
+
+    /**
+     * Check if the notification should show lights.
+     */
+    boolean isWithLights() {
+        return options.optBoolean("lights", true);
+    }
+
+    /**
+     * Get the vibration pattern for the notification.
+     */
+    long[] getVibrationPattern() {
+        JSONArray pattern = options.optJSONArray("vibrationPattern");
+        if (pattern != null) {
+            long[] vibrationPattern = new long[pattern.length()];
+            for (int i = 0; i < pattern.length(); i++) {
+                vibrationPattern[i] = pattern.optLong(i);
+            }
+            return vibrationPattern;
+        }
+        return null;
+    }
+
+    /**
+     * Check if the notification can show a badge.
+     */
+    boolean canShowBadge() {
+        return options.optBoolean("badge", true);
+    }
+
+    /**
+     * Check if the notification can bypass Do Not Disturb.
+     */
+    boolean canBypassDnd() {
+        return options.optBoolean("bypassDnd", true);
     }
 
 }
