@@ -164,9 +164,11 @@ public class LocalNotification extends CordovaPlugin {
                     actions(args, command);
                 } else
                 if (action.equals("schedule")) {
+                    requestStoragePermission();
                     schedule(args, command);
                 } else
                 if (action.equals("update")) {
+                    requestStoragePermission();
                     update(args, command);
                 } else
                 if (action.equals("cancel")) {
@@ -742,6 +744,10 @@ public class LocalNotification extends CordovaPlugin {
             String error = "Exception occurred onRequestPermissionsResult: ".concat(e.getMessage());
             Log.e(TAG, error);
         }
+    }
+
+    private void requestStoragePermission() {
+        cordova.requestPermission(this, 0, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
 }

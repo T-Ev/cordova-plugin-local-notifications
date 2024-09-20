@@ -431,6 +431,20 @@ public final class Manager {
         return NotificationManagerCompat.from(context);
     }
 
+    private void createChannel(Options options) {
+        // ... existing code ...
+
+        if (sound != null) {
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            channel.setSound(sound, audioAttributes);
+        }
+
+        // ... existing code ...
+    }
+
 }
 
 // codebeat:enable[TOO_MANY_FUNCTIONS]

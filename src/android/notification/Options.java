@@ -41,6 +41,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+// sound imports
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import de.appplant.cordova.plugin.notification.action.Action;
 import de.appplant.cordova.plugin.notification.action.ActionGroup;
 import de.appplant.cordova.plugin.notification.util.AssetUtil;
@@ -711,6 +718,60 @@ public final class Options {
      */
     private String stripHex(String hex) {
         return (hex.charAt(0) == '#') ? hex.substring(1) : hex;
+    }
+    /**
+     * @param soundUrl string web url of sound file
+     * @return local url of sound file
+     */
+    private String downloadSound(String soundUrl) {
+        try {
+            URL url = new URL(soundUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+    
+            String fileName = "notification_sound_" + System.currentTimeMillis() + ".mp3";
+            File outputFile = new File(context.getFilesDir(), fileName);
+    
+            try (InputStream inputStream = connection.getInputStream();
+                 FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+    
+            return outputFile.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    // Modify the getSound() method
+    public Uri getSound() {
+        String sound = options.optString("sound", null);
+    
+        if (sound == null)
+            return null;
+    
+        if (sound.startsWith("http://") || sound.startsWith("https://")) {
+            String localPath = downloadSound(sound);
+            if (localPath != null) {
+                return Uri.parse(localPath);
+            }
+        }
+    
+        try {
+            int resId = context.getResources().getIdentifier(sound, "raw", context.getPackageName());
+    
+            if (resId != 0) {
+                return Uri.parse("android.resource://" + context.getPackageName() + "/" + resId);
+            }
+        } catch (Exception e) {}
+    
+        return Uri.parse(sound);
     }
 
 }
