@@ -31,6 +31,8 @@ import android.content.SharedPreferences;
 import android.service.notification.StatusBarNotification;
 import androidx.core.app.NotificationManagerCompat;
 import android.app.AlarmManager;
+import android.media.AudioAttributes;
+import android.net.Uri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,6 +114,7 @@ public final class Manager {
      */
     public Notification schedule (Request request, Class<?> receiver) {
         Options options    = request.getOptions();
+        createChannel(options);
         Notification toast = new Notification(context, options);
 
         toast.schedule(request, receiver);
@@ -431,18 +434,50 @@ public final class Manager {
         return NotificationManagerCompat.from(context);
     }
 
+    @SuppressLint("NewApi")
     private void createChannel(Options options) {
-        // ... existing code ...
+        // Only create channels on Android O and above
+        if (SDK_INT < O)
+            return;
 
+        NotificationManager mgr = getNotMgr();
+        String channelId = options.getChannel();
+        String channelName = options.getChannelName();
+        int importance = options.getImportance();
+
+        NotificationChannel channel = mgr.getNotificationChannel(channelId);
+
+        // Check if channel already exists
+        if (channel != null)
+            return;
+
+        // Create a new notification channel
+        channel = new NotificationChannel(channelId, channelName, importance);
+
+        // Set channel properties
+        channel.setDescription(options.getChannelDescription());
+        channel.enableLights(options.isWithLights());
+        channel.setLightColor(options.getLedColor());
+        channel.enableVibration(options.isWithVibration());
+        channel.setVibrationPattern(options.getVibrationPattern());
+        channel.setLockscreenVisibility(options.getVisibility());
+        channel.setShowBadge(options.canShowBadge());
+        channel.setBypassDnd(options.canBypassDnd());
+
+        // Set sound
+        Uri sound = options.getSound();
         if (sound != null) {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build();
             channel.setSound(sound, audioAttributes);
+        } else {
+            channel.setSound(null, null);
         }
 
-        // ... existing code ...
+        // Create the channel
+        mgr.createNotificationChannel(channel);
     }
 
 }
